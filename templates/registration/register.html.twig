@@ -1,0 +1,148 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+<style>
+
+    /* --- Carte du formulaire --- */
+    .form-card {
+        background: #fff;
+        padding: 2rem 2.5rem;
+        border-radius: 1rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    /* --- Titre --- */
+    h1 {
+        font-weight: 600;
+        color: #333;
+    }
+
+    /* --- Champs du formulaire --- */
+    form label {
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+    }
+
+    form input[type="text"],
+    form input[type="email"],
+    form input[type="password"] {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid #ccc;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    /* --- Effet focus sur les inputs --- */
+    form input:focus {
+        border-color: #007bff;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+    }
+
+    /* --- Cases à cocher --- */
+    form .form-check {
+        display: flex;
+        align-items: center;
+        margin-top: 1rem;
+    }
+
+    form .form-check-input {
+        margin-right: 0.5rem;
+        transform: scale(1.2);
+    }
+
+    /* --- Bouton --- */
+    button.btn {
+        background-color: #007bff;
+        border: none;
+        border-radius: 0.5rem;
+        padding: 0.75rem;
+        font-size: 1.1rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        width: 100%;
+    }
+
+    button.btn:hover {
+        background-color: #0056b3;
+        transform: translateY(-2px);
+    }
+
+    /* --- Responsive --- */
+    @media (max-width: 576px) {
+        .form-card {
+            padding: 1.5rem;
+        }
+    }
+</style>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 form-card">
+            <h1 class="mb-4 text-center">Créer un compte</h1>
+
+            {{ form_start(registrationForm) }}
+                {{ form_row(registrationForm.nom) }}
+                {{ form_row(registrationForm.prenom) }}
+                {{ form_row(registrationForm.email) }}
+                {{ form_row(registrationForm.plainPassword, {
+                    label: 'Mot de passe'
+                }) }}
+
+                <br>
+
+                {{ form_row(registrationForm.isPrestataire) }}
+                {{ form_row(registrationForm.agreeTerms, {
+                    label: "J'accepte les conditions d'utilisation"
+                }) }}
+
+                <br>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        S’inscrire
+                    </button>
+                </div>
+
+            {{ form_end(registrationForm) }}
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const passwordField = document.querySelector("#registration_form_plainPassword");
+    if (!passwordField) return;
+
+    // Crée un bouton pour afficher / masquer le mot de passe
+    const toggleBtn = document.createElement("button");
+    toggleBtn.type = "button";
+    toggleBtn.textContent = "👁️";
+    toggleBtn.style.position = "absolute";
+    toggleBtn.style.right = "10px";
+    toggleBtn.style.top = "50%";
+    toggleBtn.style.transform = "translateY(-50%)";
+    toggleBtn.style.border = "none";
+    toggleBtn.style.background = "transparent";
+    toggleBtn.style.cursor = "pointer";
+    toggleBtn.style.fontSize = "1.1rem";
+
+    // Crée un wrapper pour positionner le bouton
+    const wrapper = document.createElement("div");
+    wrapper.style.position = "relative";
+    passwordField.parentNode.insertBefore(wrapper, passwordField);
+    wrapper.appendChild(passwordField);
+    wrapper.appendChild(toggleBtn);
+
+    toggleBtn.addEventListener("click", () => {
+        const isPassword = passwordField.type === "password";
+        passwordField.type = isPassword ? "text" : "password";
+        toggleBtn.textContent = isPassword ? "🙈" : "👁️";
+    });
+});
+</script>
+{% endblock %}

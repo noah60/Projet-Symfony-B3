@@ -1,0 +1,409 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Devenez Prestataire - Yoojo{% endblock %}
+
+{% block body %}
+<div class="prestataire-page">
+    {# Hero Section #}
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Devenez Prestataire de Services à Domicile</h1>
+                <p class="hero-subtitle">Inscrivez-vous et trouvez de nouveaux clients</p>
+                <a href="#" class="btn btn-primary btn-lg">
+                    Commencer gratuitement
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+
+    {# Avantages Section #}
+    <section class="avantages-section">
+        <div class="container">
+            <h2 class="section-title">Pourquoi choisir ServiGo ?</h2>
+            <div class="avantages-grid">
+                <div class="avantage-card">
+                    <div class="avantage-icon">
+                        <i class="icon-marketing"></i>
+                    </div>
+                    <h3>Marketing Gratuit</h3>
+                    <p>Ne dépensez plus en budget marketing pour vous faire connaître et trouver des clients. Nous le faisons gratuitement pour vous.</p>
+                </div>
+                <div class="avantage-card">
+                    <div class="avantage-icon">
+                        <i class="icon-accompagnement"></i>
+                    </div>
+                    <h3>Accompagnement Personnalisé</h3>
+                    <p>Nous vous accompagnons gratuitement dans l'optimisation de votre profil pour obtenir rapidement vos premières réservations.</p>
+                </div>
+                <div class="avantage-card">
+                    <div class="avantage-icon">
+                        <i class="icon-protection"></i>
+                    </div>
+                    <h3>Protection Totale</h3>
+                    <p>En cas de difficulté avec vos clients, nous prenons le relais pour résoudre la situation et prendre en charge les frais éventuels.</p>
+                </div>
+                <div class="avantage-card">
+                    <div class="avantage-icon">
+                        <i class="icon-flexibilite"></i>
+                    </div>
+                    <h3>Flexibilité Maximale</h3>
+                    <p>Choisissez votre taux horaire, votre zone d'intervention et vos disponibilités pour optimiser votre activité et vos revenus.</p>
+                </div>
+                <div class="avantage-card">
+                    <div class="avantage-icon">
+                        <i class="icon-missions"></i>
+                    </div>
+                    <h3>95 000 Missions par Mois</h3>
+                    <p>Choisissez parmi plus de 95 000 missions ponctuelles ou récurrentes chaque mois. Recevez des alertes pour les nouvelles missions selon vos critères.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {# Sécurité & Frais Section #}
+    <section class="securite-section">
+        <div class="container">
+            <div class="securite-grid">
+                <div class="securite-card">
+                    <div class="securite-icon">🛡️</div>
+                    <h3>Assurance Complète</h3>
+                    <p>Notre assurance vous couvre en cas de dommage corporel ou matériel et votre rémunération est protégée dans notre coffre-fort !</p>
+                </div>
+                <div class="securite-card">
+                    <div class="securite-icon">💰</div>
+                    <h3>Frais Transparents</h3>
+                    <p>5 % de frais de service sont prélevés sur vos revenus pour vous assurer, vous trouver des clients et vous accompagner.</p>
+                    <p class="highlight">Vous ne percevez rien, nous ne percevons rien.</p>
+                </div>
+                <div class="securite-card">
+                    <div class="securite-icon">⭐</div>
+                    <h3>Algorithme Intelligent</h3>
+                    <p>Grâce à notre algorithme intelligent, plus votre taux de satisfaction est élevé, plus il sera facile pour vous de remporter des missions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {# CTA Final Section #}
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Prêt à développer votre activité ?</h2>
+                <p>Rejoignez des milliers de prestataires qui ont déjà fait confiance à Yoojo</p>
+                <a href="{{ path('app_register') }}" class="btn btn-primary btn-xl">
+                    Créer mon compte gratuitement
+                </a>
+                <p class="cta-note">Inscription gratuite • Sans engagement • En 5 minutes</p>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .prestataire-page {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    }
+
+    .hero-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 100px 20px;
+        text-align: center;
+    }
+
+    .hero-content h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        font-weight: 700;
+    }
+
+    .hero-subtitle {
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+        opacity: 0.95;
+    }
+
+
+    .section-title {
+        font-size: 2.5rem;
+        text-align: center;
+        margin-bottom: 1rem;
+        font-weight: 700;
+    }
+
+    .section-subtitle {
+        text-align: center;
+        color: #6c757d;
+        font-size: 1.1rem;
+        margin-bottom: 3rem;
+    }
+
+    .avantages-section {
+        padding: 80px 20px;
+    }
+
+    .avantages-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        max-width: 1200px;
+        margin: 3rem auto 0;
+    }
+
+    .avantage-card {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        transition: transform 0.3s;
+    }
+
+    .avantage-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+    }
+
+    .avantage-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+
+    .avantage-card h3 {
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+        color: #2d3748;
+    }
+
+    .temoignages-section {
+        padding: 80px 20px;
+        background: #f8f9fa;
+    }
+
+    .temoignages-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .temoignage-card {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .temoignage-quote {
+        margin-bottom: 1.5rem;
+    }
+
+    .temoignage-auteur {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .auteur-avatar img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .auteur-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .auteur-info span {
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+
+    .recompenses-section {
+        padding: 60px 20px;
+    }
+
+    .recompenses-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 40px;
+        max-width: 1000px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .recompense-badge {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+
+    .fonctionnalites-section {
+        padding: 80px 20px;
+        background: #f8f9fa;
+    }
+
+    .fonctionnalites-list {
+        max-width: 1200px;
+        margin: 3rem auto 0;
+    }
+
+    .fonctionnalite-item {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: center;
+        margin-bottom: 80px;
+    }
+
+    .fonctionnalite-item.reverse {
+        direction: rtl;
+    }
+
+    .fonctionnalite-item.reverse > * {
+        direction: ltr;
+    }
+
+    .fonctionnalite-item.highlight {
+        background: white;
+        padding: 40px;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.15);
+    }
+
+    .fonctionnalite-content h3 {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+        color: #2d3748;
+    }
+
+    .fonctionnalite-visual img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .stat-highlight {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 8px;
+        margin-top: 1.5rem;
+        font-size: 1.1rem;
+    }
+
+    .securite-section {
+        padding: 80px 20px;
+    }
+
+    .securite-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .securite-card {
+        background: white;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        text-align: center;
+    }
+
+    .securite-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+
+    .securite-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: #2d3748;
+    }
+
+    .securite-card .highlight {
+        font-weight: 600;
+        color: #667eea;
+        margin-top: 1rem;
+    }
+
+    .cta-section {
+        padding: 100px 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        text-align: center;
+    }
+
+    .cta-content h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .cta-content > p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        opacity: 0.95;
+    }
+
+    .cta-note {
+        margin-top: 1rem;
+        opacity: 0.9;
+        font-size: 0.95rem;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 15px 40px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-primary {
+        background: white;
+        color: #667eea;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    .btn-lg {
+        padding: 18px 50px;
+        font-size: 1.1rem;
+    }
+
+    .btn-xl {
+        padding: 20px 60px;
+        font-size: 1.2rem;
+    }
+
+
+    @media (max-width: 768px) {
+        .hero-content h1 {
+            font-size: 2rem;
+        }
+        
+        .fonctionnalite-item {
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+        }
+    }
+</style>
+{% endblock %}

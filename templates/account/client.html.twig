@@ -1,0 +1,163 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Compte Client{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    {% if client.imageFilename %}
+                        <img src="{{ asset('uploads/' ~ client.imageFilename) }}" 
+                             alt="Photo de profil" 
+                             class="img-fluid rounded-circle mb-3"
+                             style="width: 150px; height: 150px; object-fit: cover;">
+                    {% else %}
+                        <div class="bg-secondary rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" 
+                             style="width: 150px; height: 150px;">
+                            <i class="fas fa-user fa-4x text-white"></i>
+                        </div>
+                    {% endif %}
+                    <h5 class="card-title">{{ user.prenom }} {{ user.nom }}</h5>
+                    <p class="text-muted">Client</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <a href="#informations" class="text-decoration-none">
+                            <i class="fas fa-user me-2"></i> Informations personnelles
+                        </a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="#profil" class="text-decoration-none">
+                            <i class="fas fa-id-card me-2"></i> Profil client
+                        </a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="{{ path('app_logout') }}" class="text-decoration-none text-danger">
+                            <i class="fas fa-sign-out-alt me-2"></i> Déconnexion
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+
+            {% for message in app.flashes('error') %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+
+            <!-- Informations personnelles -->
+            <div class="card mb-4" id="informations">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-user me-2"></i> Informations personnelles</h5>
+                </div>
+                <div class="card-body">
+                    {{ form_start(userForm) }}
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                {{ form_row(userForm.nom) }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form_row(userForm.prenom) }}
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            {{ form_row(userForm.email) }}
+                        </div>
+                        <hr>
+                        <h6 class="mb-3">Changer le mot de passe</h6>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                {{ form_row(userForm.plainPassword.first) }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form_row(userForm.plainPassword.second) }}
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-2"></i> Enregistrer les modifications
+                        </button>
+                    {{ form_end(userForm) }}
+                </div>
+            </div>
+
+            <!-- Profil client -->
+            <div class="card mb-4" id="profil">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-id-card me-2"></i> Profil client</h5>
+                </div>
+                <div class="card-body">
+                    {{ form_start(clientForm) }}
+                        <div class="mb-3">
+                            {{ form_row(clientForm.adresse) }}
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8 mb-3">
+                                {{ form_row(clientForm.ville) }}
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                {{ form_row(clientForm.codePostal) }}
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            {{ form_row(clientForm.telephone) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_row(clientForm.imageFile) }}
+                        </div>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save me-2"></i> Enregistrer le profil
+                        </button>
+                    {{ form_end(clientForm) }}
+                </div>
+            </div>
+
+            <!-- Zone dangereuse -->
+            <div class="card border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0"><i class="fas fa-exclamation-triangle me-2"></i> Zone dangereuse</h5>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted">Une fois votre compte supprimé, toutes vos données seront définitivement perdues.</p>
+                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        <i class="fas fa-trash me-2"></i> Supprimer mon compte
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de confirmation de suppression -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">Confirmer la suppression</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <form method="post" action="{{ path('app_account_delete') }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
+                    <button type="submit" class="btn btn-danger">Supprimer définitivement</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

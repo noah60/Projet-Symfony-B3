@@ -1,0 +1,628 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ServiGo - Trouvez le bon professionnel près de chez vous{% endblock %}
+
+{% block stylesheets %}
+<style>
+    * { box-sizing: border-box; }
+
+    /* Hero Section */
+    .hero-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 80px 20px 100px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.1)" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,138.7C960,139,1056,117,1152,106.7C1248,96,1344,96,1392,96L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+        background-size: cover;
+        opacity: 0.3;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 1;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .hero-title {
+        font-size: 3.5rem;
+        font-weight: 800;
+        color: white;
+        margin-bottom: 20px;
+        line-height: 1.2;
+    }
+
+    .hero-subtitle {
+        font-size: 1.3rem;
+        color: rgba(255,255,255,0.95);
+        margin-bottom: 40px;
+        font-weight: 400;
+    }
+
+    /* Search Box */
+    .search-box {
+        max-width: 700px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 50px;
+        padding: 8px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        display: flex;
+        align-items: center;
+        transition: all 0.3s ease;
+    }
+    
+    .search-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 25px 70px rgba(0,0,0,0.35);
+    }
+
+    .search-input {
+        flex: 1;
+        border: none;
+        padding: 18px 25px;
+        font-size: 1.1rem;
+        outline: none;
+        background: transparent;
+    }
+
+    .search-btn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 15px 40px;
+        border-radius: 50px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .search-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    /* Container */
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    /* Categories Section */
+    .categories-section {
+        padding: 80px 20px;
+        background: #f8f9fa;
+    }
+
+    .section-title {
+        text-align: center;
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #2d3436;
+        margin-bottom: 15px;
+    }
+
+    .section-subtitle {
+        text-align: center;
+        font-size: 1.2rem;
+        color: #636e72;
+        margin-bottom: 50px;
+    }
+
+    .categories-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 25px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .category-card {
+        background: white;
+        border-radius: 15px;
+        padding: 35px 25px;
+        text-align: center;
+        text-decoration: none;
+        color: #2d3436;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    }
+    
+    .category-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        border-color: #667eea;
+    }
+
+    .category-icon {
+        font-size: 3.5rem;
+        margin-bottom: 15px;
+        display: block;
+        filter: grayscale(20%);
+        transition: all 0.3s ease;
+    }
+    
+    .category-card:hover .category-icon {
+        transform: scale(1.1);
+        filter: grayscale(0%);
+    }
+
+    .category-name {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .category-count {
+        font-size: 0.95rem;
+        color: #636e72;
+    }
+
+    /* Prestataires Section */
+    .prestataires-section {
+        padding: 80px 20px;
+        background: white;
+    }
+
+    .prestataires-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 25px;
+        max-width: 1200px;
+        margin: 0 auto 40px;
+    }
+
+    .prestataire-card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        transition: all 0.3s ease;
+        border: 1px solid #e9ecef;
+    }
+
+    .prestataire-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    }
+
+    .prestataire-image-wrapper {
+        position: relative;
+        width: 100%;
+        height: 280px;
+        overflow: hidden;
+        background: #f8f9fa;
+    }
+
+    .prestataire-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .prestataire-image-placeholder {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        font-size: 4rem;
+        font-weight: 700;
+    }
+
+    .top-badge {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background: #764ba2;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        box-shadow: 0 4px 12px rgba(118, 75, 162, 0.4);
+    }
+
+    .prestataire-info {
+        padding: 20px;
+    }
+
+    .prestataire-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+    }
+
+    .prestataire-name {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #2d3436;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .pro-badge {
+        background: #667eea;
+        color: white;
+        padding: 3px 10px;
+        border-radius: 5px;
+        font-size: 0.75rem;
+        font-weight: 700;
+    }
+
+    .prestataire-rate {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #2d3436;
+    }
+
+    .prestataire-metier {
+        color: #636e72;
+        margin-bottom: 12px;
+        font-size: 1rem;
+    }
+
+    .prestataire-rating {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 15px;
+    }
+
+    .rating-stars {
+        font-size: 1.2rem;
+    }
+
+    .rating-score {
+        font-weight: 700;
+        color: #2d3436;
+        font-size: 1.1rem;
+    }
+
+    .rating-count {
+        color: #636e72;
+        font-size: 0.95rem;
+    }
+
+    .prestataire-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 15px;
+    }
+
+    .tag {
+        background: #f1f3f5;
+        color: #495057;
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 0.85rem;
+    }
+
+    .view-profile-btn {
+        display: block;
+        width: 100%;
+        text-align: center;
+        background: white;
+        color: #667eea;
+        border: 2px solid #667eea;
+        padding: 12px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .view-profile-btn:hover {
+        background: #667eea;
+        color: white;
+    }
+
+    .view-all-container {
+        text-align: center;
+        margin-top: 40px;
+    }
+
+    .view-all-btn {
+        display: inline-block;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 15px 40px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+    }
+
+    .view-all-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+    }
+
+    .no-prestataires {
+        text-align: center;
+        color: #636e72;
+        font-size: 1.1rem;
+        padding: 40px;
+    }
+
+    /* How It Works Section */
+    .how-it-works {
+        padding: 80px 20px;
+        background: #f8f9fa;
+    }
+
+    .steps-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 40px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .step-card {
+        text-align: center;
+        padding: 20px;
+    }
+
+    .step-number {
+        width: 70px;
+        height: 70px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        font-weight: 700;
+        margin: 0 auto 25px;
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+    }
+
+    .step-title {
+        font-size: 1.4rem;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #2d3436;
+    }
+
+    .step-description {
+        color: #636e72;
+        line-height: 1.6;
+        font-size: 1.05rem;
+    }
+
+
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .hero-title { font-size: 2.5rem; }
+        .hero-subtitle { font-size: 1.1rem; }
+        .search-box { flex-direction: column; border-radius: 15px; }
+        .search-input { padding: 15px 20px; width: 100%; }
+        .search-btn { width: 100%; margin-top: 10px; }
+        .section-title { font-size: 2rem; }
+        .categories-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .steps-grid { grid-template-columns: 1fr; }
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="hero-content">
+        <h1 class="hero-title">Trouvez le bon professionnel près de chez vous</h1>
+        <p class="hero-subtitle">Des milliers de prestataires de confiance pour tous vos besoins du quotidien</p>
+        
+        <form action="#" method="GET">
+            <div class="search-box">
+                <input type="text" name="q" class="search-input" placeholder="Quel service recherchez-vous ?" required>
+                <button type="submit" class="search-btn">Rechercher</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+<!-- Categories Section -->
+<section class="categories-section">
+    <div class="container">
+        <h2 class="section-title">Nos services populaires</h2>
+        
+        <div class="categories-grid">
+            <a href="#" class="category-card">
+                <span class="category-icon">📦</span>
+                <div class="category-name">Déménagement</div>
+                <div class="category-count">+500 professionnels</div>
+            </a>
+
+            <a href="#" class="category-card">
+                <span class="category-icon">✨</span>
+                <div class="category-name">Ménage</div>
+                <div class="category-count">+800 professionnels</div>
+            </a>
+
+            <a href="#" class="category-card">
+                <span class="category-icon">🔧</span>
+                <div class="category-name">Bricolage</div>
+                <div class="category-count">+650 professionnels</div>
+            </a>
+
+            <a href="#" class="category-card">
+                <span class="category-icon">🌱</span>
+                <div class="category-name">Jardinage</div>
+                <div class="category-count">+400 professionnels</div>
+            </a>
+
+            <a href="#" class="category-card">
+                <span class="category-icon">👶</span>
+                <div class="category-name">Garde d'enfants</div>
+                <div class="category-count">+300 professionnels</div>
+            </a>
+
+            <a href="#" class="category-card">
+                <span class="category-icon">💻</span>
+                <div class="category-name">Informatique</div>
+                <div class="category-count">+450 professionnels</div>
+            </a>
+
+            <a href="#" class="category-card">
+                <span class="category-icon">📚</span>
+                <div class="category-name">Soutien scolaire</div>
+                <div class="category-count">+550 professionnels</div>
+            </a>
+
+            <a href="#" class="category-card">
+                <span class="category-icon">🐾</span>
+                <div class="category-name">Garde d'animaux</div>
+                <div class="category-count">+250 professionnels</div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Prestataires Section -->
+<!-- Prestataires Section -->
+<section class="prestataires-section">
+    <div class="container">
+        <h2 class="section-title">Nos prestataires qualifiés</h2>
+        <p class="section-subtitle">350 000 prestataires de service à domicile évalués et qualifiés</p>
+        
+        <div class="prestataires-grid">
+            {% if prestataires is defined and prestataires|length > 0 %}
+                {% for prestataire in prestataires %}
+                    <div class="prestataire-card">
+                        <div class="prestataire-info">
+                            <div class="prestataire-header">
+                                <h3 class="prestataire-name">
+                                    {{ prestataire.utilisateur.prenom }}
+                                    {% if prestataire.note >= 4.9 %}
+                                        <span class="pro-badge">PRO</span>
+                                    {% endif %}
+                                </h3>
+                                <span class="prestataire-rate">{{ prestataire.tarifHoraire }} €/h</span>
+                            </div>
+                            
+                            <p class="prestataire-metier">{{ prestataire.competences|length > 40 ? prestataire.competences|slice(0, 40) ~ '...' : prestataire.competences }}</p>
+                            
+                            <div class="prestataire-rating">
+                                <span class="rating-stars">⭐</span>
+                                <span class="rating-score">{{ prestataire.note }}</span>
+                                <span class="rating-count">({{ prestataire.nombreavis }} avis)</span>
+                            </div>
+                            
+                            <div class="prestataire-tags">
+                                <span class="tag">{{ prestataire.statutdisponible }}</span>
+                                {% if prestataire.nombreavis > 50 %}
+                                    <span class="tag">Expérimenté</span>
+                                {% endif %}
+                                {% if prestataire.note >= 4.5 %}
+                                    <span class="tag">Très apprécié</span>
+                                {% endif %}
+                            </div>
+                            
+                            <a href="#" class="view-profile-btn">Voir le profil</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="no-prestataires">Aucun prestataire disponible pour le moment.</p>
+            {% endif %}
+        </div>
+        
+        <div class="view-all-container">
+            <a href="#" class="view-all-btn">Voir tous les prestataires</a>
+        </div>
+    </div>
+</section>
+
+
+<!-- How It Works Section -->
+<section class="how-it-works">
+    <div class="container">
+        <h2 class="section-title">Comment ça marche ?</h2>
+        
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <h3 class="step-title">Décrivez votre besoin</h3>
+                <p class="step-description">Expliquez en quelques mots le service dont vous avez besoin et recevez des devis personnalisés</p>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h3 class="step-title">Comparez les profils</h3>
+                <p class="step-description">Consultez les profils, avis et tarifs des professionnels disponibles près de chez vous</p>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h3 class="step-title">Réservez en ligne</h3>
+                <p class="step-description">Choisissez votre prestataire et réservez directement en ligne en toute sécurité</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    // Animation au scroll
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+
+    // Observer les cartes de catégories et prestataires
+    document.querySelectorAll('.category-card, .step-card, .prestataire-card').forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(30px)';
+        card.style.transition = 'all 0.6s ease';
+        observer.observe(card);
+    });
+
+    // Animation du search box
+    const searchInput = document.querySelector('.search-input');
+    if (searchInput) {
+        searchInput.addEventListener('focus', function() {
+            this.parentElement.style.transform = 'scale(1.02)';
+        });
+        
+        searchInput.addEventListener('blur', function() {
+            this.parentElement.style.transform = 'scale(1)';
+        });
+    }
+</script>
+{% endblock %}
